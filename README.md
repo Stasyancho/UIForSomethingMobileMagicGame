@@ -21,7 +21,7 @@ Left joystick responsible for movement, right joystick responsible for direction
 
 Right side contains of three statuses:
 + "Off" - you see only button. Pressing the button goes to the next status
-+ "Cast"
++ "Cast"- added pie menu.
 + "Direction"
 
 ## How does this work?
