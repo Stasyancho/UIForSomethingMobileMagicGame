@@ -1,9 +1,10 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LeftSideController : MonoBehaviour
+public class LeftSideController : MonoBehaviour, ISideController
 {
     [SerializeField] private Image pointForJoystick;
     [SerializeField] private Image JoystickBackground;
@@ -13,7 +14,7 @@ public class LeftSideController : MonoBehaviour
     private Vector2 _InputVector;
 
     private void Start()
-    {
+    {  
         _JoystickBackgroundStartPosition = JoystickBackground.rectTransform.anchoredPosition;
     }
     public void OnPointerDownBySide(Touch touch)
@@ -25,7 +26,11 @@ public class LeftSideController : MonoBehaviour
             JoystickBackground.rectTransform.anchoredPosition = new Vector2(joystickBackgroundPosition.x, joystickBackgroundPosition.y);
         }
     }
-
+    public void OnPointerUpBySide(Touch touch)//only for intarface
+    {
+        OnPointerUpBySide();
+    }
+    //return to start position
     public void OnPointerUpBySide()
     {
         JoystickBackground.rectTransform.anchoredPosition = _JoystickBackgroundStartPosition;
@@ -40,7 +45,9 @@ public class LeftSideController : MonoBehaviour
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(JoystickBackground.rectTransform, touch.position, null, out joystickPosition))
         {
             _InputVector = new Vector2(joystickPosition.x * 2 / JoystickBackground.rectTransform.sizeDelta.x, joystickPosition.y * 2 / JoystickBackground.rectTransform.sizeDelta.y);
-
+            //magnitude - vector length
+            //"if (magnitude> 1)" - joystick will run away
+            //condition "<0.25" for possibility cancel movement
             if (_InputVector.magnitude < 0.25f)
             {
                 _InputVector = Vector2.zero;
@@ -51,7 +58,7 @@ public class LeftSideController : MonoBehaviour
             }
 
             Joystick.rectTransform.anchoredPosition = new Vector2(_InputVector.x * JoystickBackground.rectTransform.sizeDelta.x / 2, _InputVector.y * JoystickBackground.rectTransform.sizeDelta.y / 2);
-
+            //connectiion withanother elements works through Events
             GlobalEvents.MovedJoystickMoveInvoke(_InputVector);
         }
     }

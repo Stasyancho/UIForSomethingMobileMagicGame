@@ -1,9 +1,10 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RightSideController : MonoBehaviour
+public class RightSideController : MonoBehaviour, ISideController
 {
     [SerializeField] GameObject ring;
     [SerializeField] GameObject regions;
@@ -205,9 +206,9 @@ public class RightSideController : MonoBehaviour
 
     enum ControllerStatus
     {
-        Off,
-        Cast,
-        Direction
+        Off, //only button
+        Cast, //button + pie menu
+        Direction //0nly joystick
     }
 
     private void ClearColors()
@@ -216,7 +217,6 @@ public class RightSideController : MonoBehaviour
         RedGreenBlueRegions[1].color = new Color(0, 1f, 0, 0.4f);
         RedGreenBlueRegions[2].color = new Color(0, 0, 1f, 0.4f);
     }
-
     void AddElement(char elem)
     {
         if (elem == 'R' ||  elem == 'G' || elem == 'B')

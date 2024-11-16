@@ -1,3 +1,4 @@
+using Assets.Scripts;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
@@ -9,9 +10,9 @@ using UnityEngine.UI;
 public class CanvasController : MonoBehaviour
 {
     LeftSideController leftSideController;
-    private bool leftUpTouchChecker = false;
-
     RightSideController rightSideController;
+    //for correct divide touches
+    private bool leftUpTouchChecker = false;
     private bool rightUpTouchChecker = false;
 
     void Start()
@@ -19,13 +20,13 @@ public class CanvasController : MonoBehaviour
         leftSideController = GetComponent<LeftSideController>();
         rightSideController = GetComponent<RightSideController>();
     }
-
     public void Update()
     {
         if (Input.touchCount > 0)
         {
             List<Touch> leftSideTouches = new List<Touch>();
             List<Touch> rightSideTouches = new List<Touch>();
+            //Splits touches into left and right touches. 
             foreach (Touch touch in Input.touches)
             {
                 if (touch.position.x < Screen.width / 2)
@@ -33,86 +34,51 @@ public class CanvasController : MonoBehaviour
                 else
                     rightSideTouches.Add(touch);
             }
+
             if (leftSideTouches.Count > 0)
-                LeftController(leftSideTouches);
+                Controller(leftSideTouches, leftSideController, leftUpTouchChecker, out leftUpTouchChecker);
             else if (!leftUpTouchChecker)
-            {
-                LeftController();
-                leftUpTouchChecker = true;
-            }
+                Controller(null, leftSideController, leftUpTouchChecker, out leftUpTouchChecker);
 
             if (rightSideTouches.Count > 0)
-                RightController(rightSideTouches);
+                Controller(rightSideTouches, rightSideController, rightUpTouchChecker, out rightUpTouchChecker);
             else if (!rightUpTouchChecker)
-            {
-                RightController();
-                rightUpTouchChecker = true;
-            }
+                Controller(null, rightSideController, rightUpTouchChecker, out rightUpTouchChecker);
         }
     }
-    void LeftController(List<Touch> touches = null)
+    
+    void Controller(List<Touch> touches, ISideController controller, bool touchChecker, out bool outTouchChecker)
     {
-        if (touches == null)
+        outTouchChecker = touchChecker;//outTouchChecker can't be null
+        if (touches == null)//simulate release finger
         {
-            leftSideController.OnPointerUpBySide();
+            outTouchChecker = true;
+            controller.OnPointerUpBySide();
             return;
         }
 
-        Touch touch = touches[0];
+        Touch touch = touches[0];//always use only first touch
         switch (touch.phase)
         {
 
             case TouchPhase.Began:
-                leftUpTouchChecker = false;
-                leftSideController.OnPointerDownBySide(touch);
+                outTouchChecker = false;
+                controller.OnPointerDownBySide(touch);
                 break;
 
             case TouchPhase.Moved:
-                if (!leftUpTouchChecker)
-                    leftSideController.OnDragBySide(touch);
+                if (!touchChecker)
+                    controller.OnDragBySide(touch);
                 break;
 
             case TouchPhase.Stationary:
-                if (!leftUpTouchChecker)
-                    leftSideController.OnDragBySide(touch);
+                if (!touchChecker)
+                    controller.OnDragBySide(touch);
                 break;
 
             case TouchPhase.Ended:
-                leftUpTouchChecker = true;
-                leftSideController.OnPointerUpBySide();
-                break;
-        }
-    }
-    void RightController(List<Touch> touches = null)
-    {
-        if (touches == null)
-        {
-            rightSideController.OnPointerUpBySide();
-            return;
-        }
-
-        Touch touch = touches[0];
-        switch (touch.phase)
-        {
-
-            case TouchPhase.Began:
-                rightUpTouchChecker = false;
-                rightSideController.OnPointerDownBySide(touch);
-                break;
-
-            case TouchPhase.Moved:
-                if (!rightUpTouchChecker)
-                    rightSideController.OnDragBySide(touch);
-                break;
-
-            case TouchPhase.Stationary:
-                if (!rightUpTouchChecker)
-                    rightSideController.OnDragBySide(touch);
-                break;
-
-            case TouchPhase.Ended:
-                rightUpTouchChecker = true;
-                rightSideController.OnPointerUpBySide(touch);
+                outTouchChecker = true;
+                controller.OnPointerUpBySide(touch);
                 break;
         }
     }
