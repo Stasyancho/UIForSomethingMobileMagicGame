@@ -20,9 +20,9 @@ Rightside:
 Left joystick responsible for movement, right joystick responsible for direction(spell). 
 
 Right side contains of three statuses:
-+ "Off" - you see only button. Pressing the button goes to the next status
++ "Off" - you see only button. Pressing the button goes to the next status(
 + "Cast"- added pie menu.
-+ "Direction"
++ "Direction" - you see only joystick.
 
 ## How does this work?
 
