@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FollowingCamera : MonoBehaviour
 {
+    //I don't think you have questions there
     [SerializeField] private GameObject _character;
     [SerializeField] private float _returnSpeed;
     [SerializeField] private float _height;

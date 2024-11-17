@@ -8,11 +8,14 @@ using UnityEngine.TextCore.Text;
 
 public class DirectionsController : MonoBehaviour
 {
+    //shows direction for casted spells
+    //you can add actions/effects "after cast spell" to this class
     [SerializeField] GameObject _player;
     [SerializeField] GameObject _circleDirection;
     [SerializeField] GameObject _rectangleDirection;
     List<Spell> spells = new List<Spell>();
 
+    //follow to events, get all spells from project
     void Start()
     {
         GlobalEvents.CastedJoystickMoveAdd(CastDirection);
@@ -29,6 +32,7 @@ public class DirectionsController : MonoBehaviour
 
     void CastDirection(Vector2 data)
     {
+        //if joystick is active but in the center then hides the "picture". Yes, i know, bad way
         float y = -1;
         if (data.magnitude != 0)
         {

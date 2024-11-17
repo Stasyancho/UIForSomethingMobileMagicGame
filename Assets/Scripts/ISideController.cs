@@ -7,6 +7,8 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
+    //interface for left and right SideController
+    //to avoid code duplication
     public interface ISideController
     {
         public void OnPointerDownBySide(Touch touch);

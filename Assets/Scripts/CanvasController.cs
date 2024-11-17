@@ -9,6 +9,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RightSideController))]
 public class CanvasController : MonoBehaviour
 {
+    //first layer of processing input data (touches)
+    //divide touches into 2 groups: side and phase
     LeftSideController leftSideController;
     RightSideController rightSideController;
     //for correct divide touches
@@ -20,13 +22,13 @@ public class CanvasController : MonoBehaviour
         leftSideController = GetComponent<LeftSideController>();
         rightSideController = GetComponent<RightSideController>();
     }
+    //Splits touches into left and right touches.
     public void Update()
     {
         if (Input.touchCount > 0)
         {
             List<Touch> leftSideTouches = new List<Touch>();
-            List<Touch> rightSideTouches = new List<Touch>();
-            //Splits touches into left and right touches. 
+            List<Touch> rightSideTouches = new List<Touch>(); 
             foreach (Touch touch in Input.touches)
             {
                 if (touch.position.x < Screen.width / 2)

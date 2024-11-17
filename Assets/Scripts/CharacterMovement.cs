@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class CharacterMovement : MonoBehaviour
 {
+    //watch to event for movement and just waits trigger
     [SerializeField]private float moveSpeed;
     [SerializeField]private float rotateSpeed;
     private CharacterController characterController;
