@@ -26,7 +26,8 @@ public class LeftSideController : MonoBehaviour, ISideController
             JoystickBackground.rectTransform.anchoredPosition = new Vector2(joystickBackgroundPosition.x, joystickBackgroundPosition.y);
         }
     }
-    public void OnPointerUpBySide(Touch touch)//only for intarface
+    //only for intarface
+    public void OnPointerUpBySide(Touch touch)
     {
         OnPointerUpBySide();
     }
@@ -58,7 +59,7 @@ public class LeftSideController : MonoBehaviour, ISideController
             }
 
             Joystick.rectTransform.anchoredPosition = new Vector2(_InputVector.x * JoystickBackground.rectTransform.sizeDelta.x / 2, _InputVector.y * JoystickBackground.rectTransform.sizeDelta.y / 2);
-            //connectiion withanother elements works through Events
+            //connectiion with another elements works through Events
             GlobalEvents.MovedJoystickMoveInvoke(_InputVector);
         }
     }

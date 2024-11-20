@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public static class GlobalEvents
 { 
+    //just static class with events for all project
     static UnityEvent<Vector2> MovedJoystickMove = new UnityEvent<Vector2>();
     static UnityEvent<Vector2> CastedJoystickMove = new UnityEvent<Vector2>();
     static UnityEvent<int> PickSpell = new UnityEvent<int>();
