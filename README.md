@@ -26,7 +26,7 @@ Right side contains of three statuses:
 
 ## Spell list or idea base
 
-ELEMENTS(code) - Spell Name(damage type):
+### ELEMENTS(code) - Spell Name(damage type):
 + RGB(5) -	Beam(area damage)
 + RRR(0) -	Damage Boost(buff)
 + RRG(1) - Fire Row(solo damage)
@@ -36,6 +36,18 @@ ELEMENTS(code) - Spell Name(damage type):
 + GGB(6) - Meteorite(area damage)	
 + BBB(12) - Mana Regeneration	(buff)
 + BBR(8) - Ice Arrows(solo damage)
-+ BBG(9) - Frost Blast(area damage)	
++ BBG(9) - Frost Blast(area damage)
+
+### Elements and code:
++ R - Red color in pie menu (code:0)
++ G - Green color in pie menu (code:1)
++ B - Blue color in pie menu (code:4)
+
+You might say: Stas what are these codes for? All sums of elements with such parameters give different values. This method easily identifies a spell. This won't work for 4 elements
+
+### Damage type affects direction display:
++ area damage - circle direction
++ solo damage - rectangle direction
++ buff - nothing
 
 ## Communications 
