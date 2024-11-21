@@ -20,10 +20,22 @@ Rightside:
 Left joystick responsible for movement, right joystick responsible for direction(spell). 
 
 Right side contains of three statuses:
-+ "Off" - you see only button. Pressing the button goes to the next status(
-+ "Cast"- added pie menu.
-+ "Direction" - you see only joystick.
++ "Off" - you see only button. Pressing button goes to next status(press and release)
++ "Cast"- added pie menu. Pressing button goes to next status(only press)
++ "Direction" - you see only joystick. Releasing joystick(not in center) goes to next status
 
-## How does this work?
+## Spell list or idea base
+
+ELEMENTS(code) - Spell Name(damage type):
++ RGB(5) -	Beam(area damage)
++ RRR(0) -	Damage Boost(buff)
++ RRG(1) - Fire Row(solo damage)
++ RRB(4) - Fire whirlwind(area damage)
++ GGG(3) - Shield(buff)	
++ GGR(2) - Rock Block(solo damage)
++ GGB(6) - Meteorite(area damage)	
++ BBB(12) - Mana Regeneration	(buff)
++ BBR(8) - Ice Arrows(solo damage)
++ BBG(9) - Frost Blast(area damage)	
 
 ## Communications 
