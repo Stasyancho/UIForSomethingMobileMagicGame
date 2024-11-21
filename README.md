@@ -50,4 +50,12 @@ You might say: Stas what are these codes for? All sums of elements with such par
 + solo damage - rectangle direction
 + buff - nothing
 
+## END?
+
+Yes, that's all. If you found any errors, have any interesting ideas or want to do something together, [call me maybe](https://www.youtube.com/watch?v=fWNaR-rxAic)
+
 ## Communications 
+
+[Telegram](https://t.me/stasyancho)
+
+[Linkedin](https://www.linkedin.com/in/stanislav-golovin-2b1496241/)
