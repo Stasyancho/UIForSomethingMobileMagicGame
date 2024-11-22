@@ -6,24 +6,24 @@ using UnityEngine.UI;
 
 public class LeftSideController : MonoBehaviour, ISideController
 {
-    [SerializeField] private Image pointForJoystick;
-    [SerializeField] private Image JoystickBackground;
-    [SerializeField] private Image Joystick;
+    [SerializeField] Image _pointForJoystick;
+    [SerializeField] Image _JoystickBackground;
+    [SerializeField] Image _Joystick;
 
-    private Vector2 _JoystickBackgroundStartPosition;
-    private Vector2 _InputVector;
+    Vector2 _JoystickBackgroundStartPosition;
+    Vector2 _InputVector;
 
     private void Start()
     {  
-        _JoystickBackgroundStartPosition = JoystickBackground.rectTransform.anchoredPosition;
+        _JoystickBackgroundStartPosition = _JoystickBackground.rectTransform.anchoredPosition;
     }
     public void OnPointerDownBySide(Touch touch)
     {
         Vector2 joystickBackgroundPosition;
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForJoystick.rectTransform, touch.position, null, out joystickBackgroundPosition))
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForJoystick.rectTransform, touch.position, null, out joystickBackgroundPosition))
         {
-            JoystickBackground.rectTransform.anchoredPosition = new Vector2(joystickBackgroundPosition.x, joystickBackgroundPosition.y);
+            _JoystickBackground.rectTransform.anchoredPosition = new Vector2(joystickBackgroundPosition.x, joystickBackgroundPosition.y);
         }
     }
     //only for intarface
@@ -34,8 +34,8 @@ public class LeftSideController : MonoBehaviour, ISideController
     //return to start position
     public void OnPointerUpBySide()
     {
-        JoystickBackground.rectTransform.anchoredPosition = _JoystickBackgroundStartPosition;
-        Joystick.rectTransform.anchoredPosition = Vector2.zero;
+        _JoystickBackground.rectTransform.anchoredPosition = _JoystickBackgroundStartPosition;
+        _Joystick.rectTransform.anchoredPosition = Vector2.zero;
         _InputVector = Vector2.zero;
     }
 
@@ -43,9 +43,9 @@ public class LeftSideController : MonoBehaviour, ISideController
     {
         Vector2 joystickPosition;
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(JoystickBackground.rectTransform, touch.position, null, out joystickPosition))
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_JoystickBackground.rectTransform, touch.position, null, out joystickPosition))
         {
-            _InputVector = new Vector2(joystickPosition.x * 2 / JoystickBackground.rectTransform.sizeDelta.x, joystickPosition.y * 2 / JoystickBackground.rectTransform.sizeDelta.y);
+            _InputVector = new Vector2(joystickPosition.x * 2 / _JoystickBackground.rectTransform.sizeDelta.x, joystickPosition.y * 2 / _JoystickBackground.rectTransform.sizeDelta.y);
             //magnitude - vector length
             //"if (magnitude> 1)" - joystick will run away
             //condition "<0.25" for possibility cancel movement
@@ -58,7 +58,7 @@ public class LeftSideController : MonoBehaviour, ISideController
                 _InputVector = _InputVector.normalized;
             }
 
-            Joystick.rectTransform.anchoredPosition = new Vector2(_InputVector.x * JoystickBackground.rectTransform.sizeDelta.x / 2, _InputVector.y * JoystickBackground.rectTransform.sizeDelta.y / 2);
+            _Joystick.rectTransform.anchoredPosition = new Vector2(_InputVector.x * _JoystickBackground.rectTransform.sizeDelta.x / 2, _InputVector.y * _JoystickBackground.rectTransform.sizeDelta.y / 2);
             //connectiion with another elements works through Events
             GlobalEvents.MovedJoystickMoveInvoke(_InputVector);
         }

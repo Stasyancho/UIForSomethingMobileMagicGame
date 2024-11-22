@@ -11,16 +11,16 @@ public class CanvasController : MonoBehaviour
 {
     //first layer of processing input data (touches)
     //divide touches into 2 groups: side and phase
-    LeftSideController leftSideController;
-    RightSideController rightSideController;
+    LeftSideController _leftSideController;
+    RightSideController _rightSideController;
     //for correct divide touches
-    private bool leftUpTouchChecker = false;
-    private bool rightUpTouchChecker = false;
+    bool _leftUpTouchChecker = false;
+    bool _rightUpTouchChecker = false;
 
     void Start()
     {
-        leftSideController = GetComponent<LeftSideController>();
-        rightSideController = GetComponent<RightSideController>();
+        _leftSideController = GetComponent<LeftSideController>();
+        _rightSideController = GetComponent<RightSideController>();
     }
     //Splits touches into left and right touches.
     public void Update()
@@ -38,14 +38,14 @@ public class CanvasController : MonoBehaviour
             }
 
             if (leftSideTouches.Count > 0)
-                Controller(leftSideTouches, leftSideController, leftUpTouchChecker, out leftUpTouchChecker);
-            else if (!leftUpTouchChecker)
-                Controller(null, leftSideController, leftUpTouchChecker, out leftUpTouchChecker);
+                Controller(leftSideTouches, _leftSideController, _leftUpTouchChecker, out _leftUpTouchChecker);
+            else if (!_leftUpTouchChecker)
+                Controller(null, _leftSideController, _leftUpTouchChecker, out _leftUpTouchChecker);
 
             if (rightSideTouches.Count > 0)
-                Controller(rightSideTouches, rightSideController, rightUpTouchChecker, out rightUpTouchChecker);
-            else if (!rightUpTouchChecker)
-                Controller(null, rightSideController, rightUpTouchChecker, out rightUpTouchChecker);
+                Controller(rightSideTouches, _rightSideController, _rightUpTouchChecker, out _rightUpTouchChecker);
+            else if (!_rightUpTouchChecker)
+                Controller(null, _rightSideController, _rightUpTouchChecker, out _rightUpTouchChecker);
         }
     }
     

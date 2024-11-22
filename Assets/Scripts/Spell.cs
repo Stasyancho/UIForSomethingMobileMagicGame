@@ -3,17 +3,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Spell", menuName = "Spell")]
 public class Spell : ScriptableObject
 {
-    [SerializeField] private int _key = -1;
-    [SerializeField] private int _manaCost;
-    [SerializeField] private SpellType _spellType;
+    [SerializeField] int _key = -1;
+    [SerializeField] int _manaCost;
+    [SerializeField] SpellType _spellType;
     [Header("Damage")]
-    [SerializeField] private int _fireDamage;
-    [SerializeField] private int _earthDamage;
-    [SerializeField] private int _waterDamage;
+    [SerializeField] int _fireDamage;
+    [SerializeField] int _earthDamage;
+    [SerializeField] int _waterDamage;
     [Header("EffectTime")]
-    [SerializeField] private int _burningTime;
-    [SerializeField] private int _stunTime;
-    [SerializeField] private int _slowDownTime;
+    [SerializeField] int _burningTime;
+    [SerializeField] int _stunTime;
+    [SerializeField] int _slowDownTime;
 
     public int Key => _key;
     public int ManaCost => _manaCost;

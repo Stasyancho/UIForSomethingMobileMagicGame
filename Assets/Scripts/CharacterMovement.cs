@@ -6,13 +6,13 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     //watch to event for movement and just waits trigger
-    [SerializeField]private float moveSpeed;
-    [SerializeField]private float rotateSpeed;
-    private CharacterController characterController;
+    [SerializeField]private float _moveSpeed;
+    [SerializeField]private float _rotateSpeed;
+    CharacterController _characterController;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterController>();
         GlobalEvents.MovedJoystickMoveAdd(MoveCharacter);
         GlobalEvents.MovedJoystickMoveAdd(RotateCharacter);
     }
@@ -20,7 +20,7 @@ public class CharacterMovement : MonoBehaviour
     public void MoveCharacter(Vector2 data)
     {
         Vector3 direction = new Vector3(data.x, 0, data.y);
-        characterController.Move(direction * moveSpeed * Time.deltaTime);
+        _characterController.Move(direction * _moveSpeed * Time.deltaTime);
     }
 
     public void RotateCharacter(Vector2 data)
@@ -28,7 +28,7 @@ public class CharacterMovement : MonoBehaviour
         Vector3 direction = new Vector3(data.x, 0, data.y);
         if (Vector3.Angle(transform.forward, direction) > 0)
         {
-            direction = Vector3.RotateTowards(transform.forward, direction, rotateSpeed * Time.deltaTime, 0);
+            direction = Vector3.RotateTowards(transform.forward, direction, _rotateSpeed * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(direction);
         }
     }

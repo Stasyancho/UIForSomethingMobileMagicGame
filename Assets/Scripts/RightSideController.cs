@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 public class RightSideController : MonoBehaviour, ISideController
 {
-    [SerializeField] GameObject ring;
-    [SerializeField] GameObject regions;
-    [SerializeField] Image pointForRing;
-    [SerializeField] List<Image> RedGreenBlueRegions;
-    [SerializeField] Image pointForJoystick;
-    [SerializeField] Image JoystickBackground;
-    [SerializeField] Image Joystick;
+    [SerializeField] GameObject _ring;
+    [SerializeField] GameObject _regions;
+    [SerializeField] Image _pointForRing;
+    [SerializeField] List<Image> _RedGreenBlueRegions;
+    [SerializeField] Image _pointForJoystick;
+    [SerializeField] Image _JoystickBackground;
+    [SerializeField] Image _Joystick;
 
-    ControllerStatus status; // 
+    ControllerStatus status;  
     bool PointOfTouch;
-    Vector2 _JoystickBackgroundStartPosition;
-    Vector2 _InputVector;
+    Vector2 _joystickBackgroundStartPosition;
+    Vector2 _inputVector;
     string elems = "RGB";
 
     void Start()
@@ -25,7 +25,7 @@ public class RightSideController : MonoBehaviour, ISideController
         status = ControllerStatus.Off;
         ClearColors();
         PointOfTouch = false;
-        _JoystickBackgroundStartPosition = JoystickBackground.rectTransform.anchoredPosition;
+        _joystickBackgroundStartPosition = _JoystickBackground.rectTransform.anchoredPosition;
     }
 
     public void OnPointerDownBySide(Touch touch)
@@ -35,7 +35,7 @@ public class RightSideController : MonoBehaviour, ISideController
         switch (status)
         {
             case ControllerStatus.Off://activate checker for button
-                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForRing.rectTransform, touch.position, null, out touchPosition))
+                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForRing.rectTransform, touch.position, null, out touchPosition))
                 {
                     if (Vector2.Distance(touchPosition, Vector2.zero) <= 100f)
                     {
@@ -44,23 +44,23 @@ public class RightSideController : MonoBehaviour, ISideController
                 }
                 break;
             case ControllerStatus.Cast://jump to next status and event call(don't need release button)
-                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForRing.rectTransform, touch.position, null, out touchPosition))
+                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForRing.rectTransform, touch.position, null, out touchPosition))
                 {
                     if (Vector2.Distance(touchPosition, Vector2.zero) <= 100f)
                     {
                         GlobalEvents.PickSpellInvoke(GetKey());
                         ChangeStatus();
-                        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForJoystick.rectTransform, touch.position, null, out touchPosition))
+                        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForJoystick.rectTransform, touch.position, null, out touchPosition))
                         {
-                            JoystickBackground.rectTransform.anchoredPosition = new Vector2(touchPosition.x, touchPosition.y);
+                            _JoystickBackground.rectTransform.anchoredPosition = new Vector2(touchPosition.x, touchPosition.y);
                         }
                     }
                 }
                 break;
             case ControllerStatus.Direction:
-                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForJoystick.rectTransform, touch.position, null, out touchPosition))
+                if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForJoystick.rectTransform, touch.position, null, out touchPosition))
                 {
-                    JoystickBackground.rectTransform.anchoredPosition = new Vector2(touchPosition.x, touchPosition.y);
+                    _JoystickBackground.rectTransform.anchoredPosition = new Vector2(touchPosition.x, touchPosition.y);
                 }
                 break;
         }
@@ -72,7 +72,7 @@ public class RightSideController : MonoBehaviour, ISideController
         if (status != ControllerStatus.Direction)
         {
             ClearColors();
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForRing.rectTransform, touch.position, null, out touchPosition))
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForRing.rectTransform, touch.position, null, out touchPosition))
             {
                 //2 functions:
                 //if (finger go out from button) then checker = false
@@ -82,16 +82,16 @@ public class RightSideController : MonoBehaviour, ISideController
                     PointOfTouch = false;
                     if (Vector2.Distance(touchPosition, Vector2.zero) <= 300f && status == ControllerStatus.Cast)
                     {
-                        switch ((int)((Vector3.SignedAngle(Vector3.up, new Vector3(touch.position.x, touch.position.y) - ring.transform.position, Vector3.forward) + 360f) % 360f / 120f))
+                        switch ((int)((Vector3.SignedAngle(Vector3.up, new Vector3(touch.position.x, touch.position.y) - _ring.transform.position, Vector3.forward) + 360f) % 360f / 120f))
                         {
                             case 0:
-                                RedGreenBlueRegions[0].color = new Color(1f, 0, 0, 1f);
+                                _RedGreenBlueRegions[0].color = new Color(1f, 0, 0, 1f);
                                 break;
                             case 1:
-                                RedGreenBlueRegions[1].color = new Color(0, 1f, 0, 1f);
+                                _RedGreenBlueRegions[1].color = new Color(0, 1f, 0, 1f);
                                 break;
                             case 2:
-                                RedGreenBlueRegions[2].color = new Color(0, 0, 1f, 1f);
+                                _RedGreenBlueRegions[2].color = new Color(0, 0, 1f, 1f);
                                 break;
                         }
                     }
@@ -100,25 +100,25 @@ public class RightSideController : MonoBehaviour, ISideController
         }
         else
         {
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(JoystickBackground.rectTransform, touch.position, null, out touchPosition))
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_JoystickBackground.rectTransform, touch.position, null, out touchPosition))
             {
-                _InputVector = new Vector2(touchPosition.x * 2 / JoystickBackground.rectTransform.sizeDelta.x, touchPosition.y * 2 / JoystickBackground.rectTransform.sizeDelta.y);
+                _inputVector = new Vector2(touchPosition.x * 2 / _JoystickBackground.rectTransform.sizeDelta.x, touchPosition.y * 2 / _JoystickBackground.rectTransform.sizeDelta.y);
                 //magnitude - vector length
                 //"if (magnitude> 1)" - joystick will run away
                 //condition "<0.25" for possibility cancel movement
-                if (_InputVector.magnitude < 0.2f)
+                if (_inputVector.magnitude < 0.2f)
                 {
-                    _InputVector = Vector2.zero;
+                    _inputVector = Vector2.zero;
                 }
-                else if (_InputVector.magnitude > 1f)
+                else if (_inputVector.magnitude > 1f)
                 {
-                    _InputVector = _InputVector.normalized;
+                    _inputVector = _inputVector.normalized;
                 }
 
-                Joystick.rectTransform.anchoredPosition = new Vector2(_InputVector.x * JoystickBackground.rectTransform.sizeDelta.x / 2, _InputVector.y * JoystickBackground.rectTransform.sizeDelta.y / 2);
+                _Joystick.rectTransform.anchoredPosition = new Vector2(_inputVector.x * _JoystickBackground.rectTransform.sizeDelta.x / 2, _inputVector.y * _JoystickBackground.rectTransform.sizeDelta.y / 2);
 
                 //connectiion with another elements works through Events
-                GlobalEvents.CastedJoystickMoveInvoke(_InputVector);
+                GlobalEvents.CastedJoystickMoveInvoke(_inputVector);
             }
         }
     }
@@ -129,7 +129,7 @@ public class RightSideController : MonoBehaviour, ISideController
             Vector2 touchPosition;
             ClearColors();
 
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(pointForRing.rectTransform, touch.position, null, out touchPosition))
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_pointForRing.rectTransform, touch.position, null, out touchPosition))
             {
                 if (Vector2.Distance(touchPosition, Vector2.zero) <= 100f)
                 {
@@ -145,7 +145,7 @@ public class RightSideController : MonoBehaviour, ISideController
                     if (Vector2.Distance(touchPosition, Vector2.zero) <= 300f && status == ControllerStatus.Cast)
                     {
                         //save picked "pie piece"
-                        switch ((int)((Vector3.SignedAngle(Vector3.up, new Vector3(touch.position.x, touch.position.y) - ring.transform.position, Vector3.forward) + 360f) % 360f / 120f))
+                        switch ((int)((Vector3.SignedAngle(Vector3.up, new Vector3(touch.position.x, touch.position.y) - _ring.transform.position, Vector3.forward) + 360f) % 360f / 120f))
                         {
                             case 0:
                                 AddElement('R');
@@ -167,14 +167,14 @@ public class RightSideController : MonoBehaviour, ISideController
         {
             //return to start position
             //if direction picked then activated event
-            if (_InputVector != Vector2.zero)
+            if (_inputVector != Vector2.zero)
             {
-                GlobalEvents.CastSpellInvoke(GetKey(), _InputVector);
-                Joystick.rectTransform.anchoredPosition = Vector2.zero;
-                _InputVector = Vector2.zero;
+                GlobalEvents.CastSpellInvoke(GetKey(), _inputVector);
+                _Joystick.rectTransform.anchoredPosition = Vector2.zero;
+                _inputVector = Vector2.zero;
                 ChangeStatus();
             }
-            JoystickBackground.rectTransform.anchoredPosition = _JoystickBackgroundStartPosition;
+            _JoystickBackground.rectTransform.anchoredPosition = _joystickBackgroundStartPosition;
         }
     }
     //return to start position
@@ -183,9 +183,9 @@ public class RightSideController : MonoBehaviour, ISideController
         if (status == ControllerStatus.Direction)
         {
             GlobalEvents.CastedJoystickMoveInvoke(new Vector2(0, 0));
-            JoystickBackground.rectTransform.anchoredPosition = _JoystickBackgroundStartPosition;
-            Joystick.rectTransform.anchoredPosition = Vector2.zero;
-            _InputVector = Vector2.zero;
+            _JoystickBackground.rectTransform.anchoredPosition = _joystickBackgroundStartPosition;
+            _Joystick.rectTransform.anchoredPosition = Vector2.zero;
+            _inputVector = Vector2.zero;
         }
     }
     //sets required UI elements visible
@@ -195,22 +195,22 @@ public class RightSideController : MonoBehaviour, ISideController
         {
             case ControllerStatus.Off:
 
-                regions.SetActive(true);
+                _regions.SetActive(true);
 
                 status = ControllerStatus.Cast;
                 break;
             case ControllerStatus.Cast:
 
-                JoystickBackground.gameObject.SetActive(true);
-                ring.SetActive(false);
+                _JoystickBackground.gameObject.SetActive(true);
+                _ring.SetActive(false);
 
                 status = ControllerStatus.Direction;
                 break;
             case ControllerStatus.Direction:
 
-                JoystickBackground.gameObject.SetActive(false);
-                regions.SetActive(false);
-                ring.SetActive(true);
+                _JoystickBackground.gameObject.SetActive(false);
+                _regions.SetActive(false);
+                _ring.SetActive(true);
 
                 status = ControllerStatus.Off;
                 break;
@@ -226,9 +226,9 @@ public class RightSideController : MonoBehaviour, ISideController
     
     private void ClearColors()
     {
-        RedGreenBlueRegions[0].color = new Color(1f, 0, 0, 0.4f);
-        RedGreenBlueRegions[1].color = new Color(0, 1f, 0, 0.4f);
-        RedGreenBlueRegions[2].color = new Color(0, 0, 1f, 0.4f);
+        _RedGreenBlueRegions[0].color = new Color(1f, 0, 0, 0.4f);
+        _RedGreenBlueRegions[1].color = new Color(0, 1f, 0, 0.4f);
+        _RedGreenBlueRegions[2].color = new Color(0, 0, 1f, 0.4f);
     }
     //always only 3 elements
     void AddElement(char elem)

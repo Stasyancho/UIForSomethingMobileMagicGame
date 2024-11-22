@@ -13,7 +13,10 @@ public class DirectionsController : MonoBehaviour
     [SerializeField] GameObject _player;
     [SerializeField] GameObject _circleDirection;
     [SerializeField] GameObject _rectangleDirection;
-    List<Spell> spells = new List<Spell>();
+    List<Spell> _spells = new List<Spell>();
+
+    //"nothing" or "solo" or "area"
+    DiectionType _selecteDirectionType = DiectionType.None;
 
     //follow to events, get all spells from project
     void Start()
@@ -26,27 +29,35 @@ public class DirectionsController : MonoBehaviour
         {
             var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
             var character = AssetDatabase.LoadAssetAtPath<Spell>(SOpath);
-            spells.Add(character);
+            _spells.Add(character);
         }
     }
 
     void CastDirection(Vector2 data)
     {
-        //if joystick is active but in the center then hides the "picture". Yes, i know, bad way
-        float y = -1;
         if (data.magnitude != 0)
         {
-            y = 0.01f;
+            if (_selecteDirectionType == DiectionType.Rectangle && !_rectangleDirection.activeSelf)
+                _rectangleDirection.SetActive(true);
+            if (_selecteDirectionType == DiectionType.Circle && !_circleDirection.activeSelf)
+                _circleDirection.SetActive(true);
+        }
+        else
+        {
+            if (_selecteDirectionType == DiectionType.Rectangle && _circleDirection.activeSelf)
+                _rectangleDirection.SetActive(false);
+            if (_selecteDirectionType == DiectionType.Circle && _circleDirection.activeSelf)
+                _circleDirection.SetActive(false);
         }
 
         if (_circleDirection.activeSelf)
         {
-            _circleDirection.transform.position = new Vector3(data.x * 10 + _player.transform.position.x, y, data.y * 10 + _player.transform.position.z);
+            _circleDirection.transform.position = new Vector3(data.x * 10 + _player.transform.position.x, 0.01f, data.y * 10 + _player.transform.position.z);
         }
 
         if (_rectangleDirection.activeSelf)
         {
-            _rectangleDirection.transform.position = new Vector3(data.x * 5 + _player.transform.position.x, y, data.y * 5 + _player.transform.position.z);
+            _rectangleDirection.transform.position = new Vector3(data.x * 5 + _player.transform.position.x, 0.01f, data.y * 5 + _player.transform.position.z);
             _rectangleDirection.transform.eulerAngles = new Vector3(90, 0, (Vector3.SignedAngle(Vector3.up, new Vector3(data.x, data.y), Vector3.forward) + 360f));
             _rectangleDirection.transform.localScale = new Vector3(1, 10 * data.magnitude, 1);
         }
@@ -54,21 +65,29 @@ public class DirectionsController : MonoBehaviour
 
     void SelectedDirection(int key)
     {
-        Spell choosedSpell = spells.FirstOrDefault(s => s.Key == key);
+        Spell choosedSpell = _spells.FirstOrDefault(s => s.Key == key);
         if (choosedSpell.SpellType == SpellType.Solo)
         {
-            _rectangleDirection.SetActive(true);
+            _selecteDirectionType = DiectionType.Rectangle;
         }
         if (choosedSpell.SpellType == SpellType.Mass)
         {
-            _circleDirection.SetActive(true);
+            _selecteDirectionType = DiectionType.Circle;
         }
         Debug.Log("PickedSpell:" + choosedSpell.name);
     }
 
     void HideDirections(int key, Vector2 vector2)
     {
+        _selecteDirectionType = DiectionType.None;
         _circleDirection.SetActive(false);
         _rectangleDirection.SetActive(false);
+    }
+
+    enum DiectionType
+    {
+        None,
+        Circle,
+        Rectangle
     }
 }
